@@ -1,6 +1,0 @@
-/home/ae_apple/Projects/Minimal-Calculator/CMakeFiles/AST.dir
-/home/ae_apple/Projects/Minimal-Calculator/CMakeFiles/Processor.dir
-/home/ae_apple/Projects/Minimal-Calculator/CMakeFiles/App.dir
-/home/ae_apple/Projects/Minimal-Calculator/CMakeFiles/calculator.dir
-/home/ae_apple/Projects/Minimal-Calculator/CMakeFiles/edit_cache.dir
-/home/ae_apple/Projects/Minimal-Calculator/CMakeFiles/rebuild_cache.dir
