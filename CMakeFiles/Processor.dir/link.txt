@@ -1,0 +1,2 @@
+/usr/bin/ar qc libProcessor.a CMakeFiles/Processor.dir/Calculator/Processor/Processor.cpp.o
+/usr/bin/ranlib libProcessor.a

@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall -O3 -DNDEBUG CMakeFiles/calculator.dir/main.cpp.o -o calculator  libApp.a libAST.a libProcessor.a 
