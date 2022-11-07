@@ -20,9 +20,8 @@ struct Entity {
 	char prefix;
 	char suffix;
 	int number;
-	int depth;
 
-	Entity(char prefix, int number, char suffix, int depth);
+	Entity(char prefix, int number, char suffix);
 	friend std::ostream& operator<<(std::ostream &os, const Entity expression);
 };
 

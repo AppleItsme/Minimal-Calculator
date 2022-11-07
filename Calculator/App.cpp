@@ -1,6 +1,7 @@
 #include "App.hpp"
 
 #include <cctype>
+#include <cstddef>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -16,19 +17,9 @@
  *	(5 + 5) * 7 = 70
  */
 
-std::vector<char> lexer(std::string str) {
-	size_t pos = str.find("-(-");
-	while(pos != std::string::npos) {
-		str.replace(str.begin()+pos, str.begin()+pos+3, "+(");
-		pos = str.find("-(-");
-	}	
-
+std::vector<char> Lexer(std::string str) {
 	std::vector<char> vec;
-	if(str.find("/0") != std::string::npos) {
-		std::cout << "no division by zero!" << std::endl;
-		return vec;
-	}
-	const std::array<char, 7> allowed_nondigit_char = {'%', '+', '-', '/', '(', ')', '*'};
+	const std::array<char, 7> allowed_nondigit_char = {'%', '+', '-', '/', '*'};
 	for(const char& i : str) {
 		if(!std::none_of(allowed_nondigit_char.begin(), allowed_nondigit_char.end(), [&i](char v) { return i == v; }) 
 			|| std::isdigit(i)) {
@@ -36,23 +27,61 @@ std::vector<char> lexer(std::string str) {
 			continue;
 		}
 		std::cout << "Syntax error: '" << i << "'; Invalid character bozo" << std::endl;
+		std::cout << str << std::endl;
 		vec.clear();
 		break;
 	}
 	return vec;
 }
 
+std::string isolateDeepest(std::string& str, std::vector<std::string>& depth_tree) {
+	size_t pos1 = str.find('(');
+	size_t pos2 = str.find_last_of(')');
+	if(pos2 != std::string::npos || pos1 != std::string::npos) {
+		str.erase(0, pos1+1);
+		str.erase(pos2-pos1-1);
+		depth_tree.push_back(str);
+		str = isolateDeepest(str, depth_tree);
+	}
+	return str;
+}
+
+size_t Process(std::string str, size_t& err) {	
+	size_t result = 0;
+	std::vector<std::string> depth_tree = {str};
+	isolateDeepest(str, depth_tree);
+
+	for(int i = depth_tree.size()-1; i >= 0; i--) {
+		auto lexed = Lexer(depth_tree[i]);
+		if(lexed.empty()) {
+			err = 1;	
+			return result;
+		}
+		auto cur_result = Calculator::ParseToAST(lexed);
+		Calculator::Calculate(cur_result);
+		if(i > 0) {
+			std::string num_str = std::to_string(cur_result[0].number);
+			size_t pos = depth_tree[i-1].find(depth_tree[i])-1;
+
+			depth_tree[i-1].replace(depth_tree[i-1].begin() + pos,
+					depth_tree[i-1].begin() + pos + depth_tree[i].size()+2,
+					num_str);
+		}
+		result = cur_result[0].number;
+	}
+	return result;
+}
+
+
+
 void Calculator::Initialize() {
 	std::cout << "Type in the equation below (No whitespaces allowed ;_;)" << std::endl;
 	
 	std::string input;
 	std::cin >> input;
-	
-	auto lexed_chars = lexer(input);
-	if(lexed_chars.empty())
-		return;
-	std::vector<Entity> result = Calculator::ParseToAST(lexed_chars);
-	Calculator::Calculate(result);
-	std::cout << HIGHLIGHT_COLOR << "Result: " << HIGHLIGHT_COLOR_2 << result[0].number << ERASESTYLE << std::endl;
+	size_t err = 0;
+	std::cout << HIGHLIGHT_COLOR << "Result: " << HIGHLIGHT_COLOR_2 
+		<< Process(input, err) << ERASESTYLE << std::endl 
+		<< err << std::endl;
 }
 
