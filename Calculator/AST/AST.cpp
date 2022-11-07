@@ -6,15 +6,13 @@
 #include <string>
 
 namespace Calculator {
-	Entity::Entity(char prefix, int number, char suffix) {
-		this->prefix = prefix;
+	Entity::Entity(int number, char suffix) {
 		this->suffix = suffix;
 		this->number = number;
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Entity expression) {
-		os << "prefix: " << expression.prefix << std::endl
-			<< "number: " << expression.number << std::endl
+		os 	<< "number: " << expression.number << std::endl
 			<< "suffix: " << expression.suffix << std::endl;
 		return os;
 	}
@@ -32,14 +30,11 @@ namespace Calculator {
 			std::string num = start_pos < i && i < chars.size()
 				? std::string(chars.begin() + start_pos, chars.begin() + i + 1)
 				: std::string(1, chars[i]);
-			char prefix = (long long)start_pos-1 == -1 ? '\0' : chars[start_pos-1];
-			if(prefix == '(' && (long long)start_pos-2 >= 0)
-				prefix = chars[start_pos-2];
 			char suffix = i+1 < chars.size() ? chars[i+1] : '\0';
 			if(suffix == ')' && i+2 < chars.size())
 				suffix = chars[i+2];
 
-			AST.push_back(Entity(prefix, std::stoi(num), suffix));
+			AST.push_back(Entity(std::stoi(num), suffix));
 		}
 		if(DEBUG_MODE) {
 			DebugAST(AST, "AST PARSING::", "::AST PARSING");

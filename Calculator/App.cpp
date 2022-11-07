@@ -20,6 +20,10 @@
 std::vector<char> Lexer(std::string str) {
 	std::vector<char> vec;
 	const std::array<char, 7> allowed_nondigit_char = {'%', '+', '-', '/', '*'};
+	if(str.find("/0") != std::string::npos) {
+		std::cout << "sorry m8, I don't take divions by zero here" << std::endl;
+		return vec;
+	}
 	for(const char& i : str) {
 		if(!std::none_of(allowed_nondigit_char.begin(), allowed_nondigit_char.end(), [&i](char v) { return i == v; }) 
 			|| std::isdigit(i)) {
@@ -80,8 +84,10 @@ void Calculator::Initialize() {
 	std::string input;
 	std::cin >> input;
 	size_t err = 0;
-	std::cout << HIGHLIGHT_COLOR << "Result: " << HIGHLIGHT_COLOR_2 
-		<< Process(input, err) << ERASESTYLE << std::endl 
-		<< err << std::endl;
+	size_t result = Process(input, err);
+	if(err == 0) {
+		std::cout << HIGHLIGHT_COLOR << "Result: " << HIGHLIGHT_COLOR_2 
+			<< result << ERASESTYLE << std::endl;
+	}
 }
 

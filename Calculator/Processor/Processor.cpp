@@ -38,7 +38,7 @@ namespace Calculator {
 				break;
 		}
 		AST.erase(AST.begin() + second);
-		return Entity(AST[first].prefix, num, second_obj.suffix);
+		return Entity(num, second_obj.suffix);
 	}
 	
 	void Calculate(std::vector<Entity>& AST) {

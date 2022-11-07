@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.1"
@@ -22,7 +22,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -45,28 +45,28 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "AST::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-AST-Debug-aa5b3a1231224ba564de.json",
+					"jsonFile" : "target-AST-Release-13e201daaa866fa2a676.json",
 					"name" : "AST",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "App::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-App-Debug-dd781ca338a8692ba8cc.json",
+					"jsonFile" : "target-App-Release-867007f342fb6e3155ef.json",
 					"name" : "App",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Processor::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Processor-Debug-4a0323202493a39b71ab.json",
+					"jsonFile" : "target-Processor-Release-9a4d18972c6e5b144be2.json",
 					"name" : "Processor",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "calculator::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-calculator-Debug-30c966138c1f91757cbd.json",
+					"jsonFile" : "target-calculator-Release-33ea0433f772a5e5ebf9.json",
 					"name" : "calculator",
 					"projectIndex" : 0
 				}
