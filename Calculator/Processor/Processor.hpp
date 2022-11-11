@@ -1,6 +1,6 @@
 #pragma once
-#include "../AST/AST.hpp"
+#include "../Postfix/Postfix.hpp"
 
 namespace Calculator {
-	void Calculate(std::vector<Entity>& AST);
+	long Calculate(Postfix&);
 }

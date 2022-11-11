@@ -1,60 +1,40 @@
 #include "Processor.hpp"
-#include <algorithm>
-#include <cstddef>
-#include <array>
-#include "../AST/AST.hpp"
+#include <iostream>
 
-namespace Calculator {
-	Entity MergePairEntities(const size_t first, const size_t second, std::vector<Entity>& AST) {
-		int num = 0;
-		Entity second_obj = AST[second];
-		if(second+1 < AST.size()) {
-			switch(AST[second].suffix) {
-				case '*':
-				case '/':
-				case '%':
-					second_obj = MergePairEntities(second, second + 1, AST);
-					break;
-				default:
-					break;
-			}
-		}
-
-		switch(AST[first].suffix) {
-			case '-':
-				num = AST[first].number - second_obj.number;
-				break;
-			case '+':
-				num = AST[first].number + second_obj.number; 
-				break;
-			case '/':
-				num = AST[first].number / second_obj.number ;
-				break;
-			case '*':
-				num = AST[first].number * second_obj.number;
-				break;
-			case '%':
-				num = AST[first].number % second_obj.number;
-				break;
-		}
-		AST.erase(AST.begin() + second);
-		return Entity(num, second_obj.suffix);
+inline void PerformOperation(long& result_num, const long& num1, char oper) {
+	switch(oper) {
+		case '-':
+			result_num -= num1;
+			break;
+		case '+':
+			result_num += num1;
+			break;
+		case '*':
+			result_num *= num1;
+			break;
+		case '/':
+			result_num /= num1;
+			break;
+		case '%':
+			result_num %= num1;
+			break;
 	}
-	
-	void Calculate(std::vector<Entity>& AST) {
-		while(AST.size() > 1) {
-			if(DEBUG_MODE) {
-				DebugAST(AST, "=====Beginning=====", "=================="); 
-			}
-			//AST.insert(AST.begin() + max_depth_i, result);
-			//AST.erase(AST.begin() + max_depth_i+1);
-			AST[0] = MergePairEntities(0, 1, AST);
-			if(DEBUG_MODE) {
-				std::cout << "=====End=====" << std::endl;
-				for(const auto& v: AST) 
-					std::cout << "AST: " << v << std::endl;
-				std::cout << "=============" << std::endl;
-			}
+	if(DEBUG_MODE) {
+		std::cout << "PerformOperation::result_num: " << result_num << std::endl;
+	}
+}
+
+long Calculator::Calculate(Postfix& obj) {
+	if(DEBUG_MODE)
+		std::cout << std::endl;
+	for(int i = 0; i < obj.number_stack.size() && obj.number_stack.size() >= 3; i++) {
+		if(!obj.number_stack[i].number) {
+			PerformOperation(obj.number_stack[i-2].val, obj.number_stack[i-1].val, obj.number_stack[i].val);
+			obj.number_stack.erase(obj.number_stack.begin()+i-1, obj.number_stack.begin()+i+1);
+			i -= 2;
+			if(DEBUG_MODE)
+				std::cout << obj;
 		}
 	}
+	return obj.number_stack[0].val;
 }
