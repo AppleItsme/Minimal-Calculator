@@ -94,6 +94,11 @@ namespace Calculator {
 					}
 					goto PUSH;
 				}
+				case '-': {
+					if(tokens[i-1] == '(') {
+						this->number_stack.push_back(PostfixStackValue(true, 0));
+					}
+				}
 				default:
 					if(previous_operator == '\0') {
 						goto PUSH;
